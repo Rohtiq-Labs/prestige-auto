@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prestige Auto Tints — Certified XPEL Installer | Connecticut & New York</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Brand Color System */
+    --bg: #0A0A0A;
+    --bg2: #131313;
+    --bg3: #1A1A1A;
+    --silver: #C2C2C2;
+    --silver-dim: rgba(194,194,194,0.08);
+    --silver-hover: #F2F2F2;
+    --red: #8B1118;
+    --white: #F2F2F2;
+    --gray: #8A8A8A;
+    --gray-light: #C2C2C2;
+    --border: rgba(194,194,194,0.12);
+
+    /* Legacy alias so inline references in SVGs remain coherent */
+    --gold: #C2C2C2;
+    --gold-dim: rgba(194,194,194,0.08);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor — silver dot, red ring on hover */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--silver);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+    mix-blend-mode: normal;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(194,194,194,0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+  }
+  .cursor.expanded {
+    width: 60px; height: 60px;
+    background: transparent;
+    border: 1px solid var(--red);
+  }
+  .cursor.expanded + .cursor-ring { opacity: 0; }
+
+  /* Typography */
+  @font-face {
+    font-family: 'ClashDisplay';
+    src: local('General Sans'), local('Inter');
+    font-weight: 600;
+  }
+
+  .display-xl {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 9rem);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    color: var(--white);
+  }
+  .display-lg {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 6rem);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--white);
+  }
+  .display-md {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 4rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: var(--white);
+  }
+  .eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--silver);
+    font-weight: 400;
+  }
+  .body-text { font-size: 0.95rem; line-height: 1.75; color: var(--gray-light); font-weight: 300; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 28px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.5s ease, padding 0.3s ease;
+  }
+  nav.scrolled {
+    background: rgba(10,10,10,0.94);
+    backdrop-filter: blur(24px);
+    padding: 18px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white);
+    font-weight: 400;
+    text-decoration: none;
+  }
+  /* "Auto" in logo uses silver — brand mark fidelity */
+  .nav-logo span { color: var(--silver); }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: 400;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--white); }
+  /* Thin red underline on nav hover — sparingly */
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 1px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--silver);
+    border: 1px solid rgba(194,194,194,0.25);
+    padding: 10px 22px;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+    font-weight: 400;
+  }
+  .nav-cta:hover {
+    background: var(--silver);
+    color: var(--bg);
+    border-color: var(--silver);
+  }
+
+  /* HERO */
+  #hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 62% 42%, rgba(194,194,194,0.04) 0%, transparent 60%),
+      linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.55) 60%, rgba(10,10,10,1) 100%);
+    z-index: 1;
+  }
+  .hero-visual {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .hero-visual-inner {
+    width: 100%; height: 120%;
+    background: linear-gradient(135deg, #0A0A0A 0%, #161616 35%, #0f0f0f 65%, #0A0A0A 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform;
+  }
+
+  /* SVG Car Silhouette */
+  .hero-car-graphic {
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 65%;
+    opacity: 0.12;
+    z-index: 0;
+  }
+  .hero-car-graphic-gold {
+    position: absolute;
+    right: 0%;
+    top: 50%;
+    transform: translateY(-48%);
+    width: 62%;
+    opacity: 1;
+    z-index: 1;
+    filter: drop-shadow(0 0 80px rgba(194,194,194,0.06));
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 60px 100px;
+    width: 100%;
+    max-width: 820px;
+  }
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--silver);
+    opacity: 0.5;
+  }
+  .hero-title { margin-bottom: 28px; }
+  .hero-title .line { display: block; overflow: hidden; }
+  /* Italic accent in silver italic — refined not flashy */
+  .hero-title .italic { font-style: italic; color: var(--silver); }
+  .hero-sub {
+    font-size: 0.85rem;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+    margin-bottom: 48px;
+    max-width: 420px;
+    line-height: 1.8;
+  }
+  .hero-ctas { display: flex; gap: 20px; align-items: center; }
+
+  /* Primary button — silver on black, metallic shine on hover */
+  .btn-primary {
+    display: inline-block;
+    background: var(--silver);
+    color: var(--bg);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+    transition: left 0.5s ease;
+  }
+  .btn-primary:hover {
+    background: var(--silver-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 32px rgba(194,194,194,0.12);
+  }
+  .btn-primary:hover::after { left: 160%; }
+
+  /* Ghost button — transparent with silver border */
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--silver);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s;
+    cursor: none;
+    border: 1px solid rgba(194,194,194,0.2);
+    padding: 15px 28px;
+  }
+  .btn-ghost:hover { color: var(--white); background: var(--bg3); border-color: rgba(194,194,194,0.3); }
+  .btn-ghost span { font-size: 1.1rem; }
+
+  .hero-metrics {
+    position: absolute;
+    right: 60px;
+    bottom: 100px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    text-align: right;
+  }
+  .metric-item { }
+  .metric-num {
+    font-size: 2.2rem;
+    font-weight: 200;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  /* Metric accent in silver */
+  .metric-num span { color: var(--silver); opacity: 0.7; }
+  .metric-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--silver), transparent);
+    opacity: 0.4;
+    animation: scrollLine 2s ease infinite;
+  }
+  @keyframes scrollLine {
+    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    50% { opacity: 0.4; transform: scaleY(1); }
+    100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+  }
+  .scroll-label { font-size: 0.55rem; letter-spacing: 0.2em; color: var(--gray); text-transform: uppercase; }
+
+  /* SERVICES - Expanding Panels */
+  #services {
+    position: relative;
+    background: var(--bg2);
+  }
+  .services-header {
+    padding: 120px 60px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--border);
+  }
+  .services-header-left { max-width: 500px; }
+  .services-header-right {
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 0.06em;
+    max-width: 260px;
+    line-height: 1.7;
+    text-align: right;
+  }
+  .services-panels {
+    display: flex;
+    height: 500px;
+  }
+  .service-panel {
+    flex: 1;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+    transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .service-panel:last-child { border-right: none; }
+  .service-panel:hover { flex: 3; }
+  .service-panel-inner {
+    padding: 48px 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-panel-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .service-panel:hover .service-panel-bg { opacity: 1; }
+  .service-panel-num {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+    font-weight: 400;
+  }
+  .service-panel-icon {
+    font-size: 2rem;
+    opacity: 0.2;
+    transition: opacity 0.4s;
+  }
+  .service-panel:hover .service-panel-icon { opacity: 0.5; }
+  .service-panel-bottom { }
+  .service-panel-title {
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    color: var(--white);
+  }
+  .service-panel-desc {
+    font-size: 0.78rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 280px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s 0.1s, transform 0.4s 0.1s;
+  }
+  .service-panel:hover .service-panel-desc { opacity: 1; transform: translateY(0); }
+  .service-panel-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-decoration: none;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 0.4s 0.15s;
+  }
+  /* Red dot accent on service link */
+  .service-panel-link::before {
+    content: '';
+    display: inline-block;
+    width: 4px; height: 4px;
+    background: var(--red);
+    border-radius: 50%;
+  }
+  .service-panel:hover .service-panel-link { opacity: 1; }
+
+  /* Subtle surface shift per panel on hover */
+  .sp-ppf .service-panel-bg     { background: linear-gradient(135deg, rgba(194,194,194,0.04) 0%, transparent 100%); }
+  .sp-ceramic .service-panel-bg { background: linear-gradient(135deg, rgba(194,194,194,0.03) 0%, transparent 100%); }
+  .sp-tint .service-panel-bg    { background: linear-gradient(135deg, rgba(26,26,26,0.8) 0%, transparent 100%); }
+  .sp-ppf-tint .service-panel-bg{ background: linear-gradient(135deg, rgba(194,194,194,0.04) 0%, transparent 100%); }
+  .sp-wrap .service-panel-bg    { background: linear-gradient(135deg, rgba(194,194,194,0.03) 0%, transparent 100%); }
+
+  /* PORTFOLIO - Masonry */
+  #portfolio {
+    padding: 120px 0;
+    background: var(--bg);
+  }
+  .portfolio-header {
+    padding: 0 60px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .portfolio-filter {
+    display: flex;
+    gap: 28px;
+  }
+  .filter-btn {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gray);
+    background: none;
+    border: none;
+    cursor: none;
+    transition: color 0.3s;
+    font-family: 'Inter', sans-serif;
+  }
+  /* Active filter uses red underline accent */
+  .filter-btn.active { color: var(--silver); border-bottom: 1px solid var(--red); padding-bottom: 2px; }
+  .filter-btn:hover { color: var(--silver); }
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 80px;
+    gap: 3px;
+    padding: 0 3px;
+  }
+  .masonry-item {
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+  }
+  .masonry-item:nth-child(1) { grid-column: 1 / 6; grid-row: 1 / 7; }
+  .masonry-item:nth-child(2) { grid-column: 6 / 9; grid-row: 1 / 5; }
+  .masonry-item:nth-child(3) { grid-column: 9 / 13; grid-row: 1 / 6; }
+  .masonry-item:nth-child(4) { grid-column: 6 / 9; grid-row: 5 / 9; }
+  .masonry-item:nth-child(5) { grid-column: 9 / 12; grid-row: 6 / 9; }
+  .masonry-item:nth-child(6) { grid-column: 12 / 13; grid-row: 6 / 9; }
+  .masonry-item:nth-child(7) { grid-column: 1 / 5; grid-row: 7 / 11; }
+  .masonry-item:nth-child(8) { grid-column: 5 / 9; grid-row: 9 / 13; }
+  .masonry-item:nth-child(9) { grid-column: 9 / 13; grid-row: 9 / 13; }
+
+  .masonry-item-bg {
+    width: 100%; height: 100%;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .masonry-item:hover .masonry-item-bg { transform: scale(1.05); }
+  .masonry-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,0.92) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+  }
+  .masonry-item:hover .masonry-overlay { opacity: 1; }
+  .masonry-info { }
+  .masonry-vehicle {
+    font-size: 0.9rem;
+    font-weight: 300;
+    margin-bottom: 4px;
+    color: var(--white);
+  }
+  .masonry-service {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+
+  /* Car color palettes */
+  .car-dark-1 { background: linear-gradient(135deg, #111 0%, #1e1e1e 40%, #0d0d0d 100%); }
+  .car-dark-2 { background: linear-gradient(135deg, #0d0f14 0%, #161a22 50%, #0d0f14 100%); }
+  .car-dark-3 { background: linear-gradient(135deg, #110e0e 0%, #1a1414 50%, #110e0e 100%); }
+  .car-mid-1  { background: linear-gradient(135deg, #171717 0%, #242424 50%, #171717 100%); }
+  .car-mid-2  { background: linear-gradient(135deg, #131313 0%, #1f1f1f 50%, #131313 100%); }
+
+  /* Abstract car shapes in portfolio cells */
+  .portfolio-car-shape {
+    position: absolute;
+    width: 85%;
+    height: 50%;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.25;
+  }
+
+  /* WHY PRESTIGE - Vertical Timeline */
+  #why {
+    padding: 140px 60px;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+  .why-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22vw;
+    font-weight: 200;
+    color: rgba(194,194,194,0.018);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0 0;
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 80px auto 0;
+  }
+  .why-timeline-line {
+    grid-column: 2;
+    grid-row: 1 / 10;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .timeline-line-inner {
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(194,194,194,0.25), transparent);
+    opacity: 1;
+  }
+  .why-item {
+    padding: 60px 60px;
+    position: relative;
+  }
+  .why-item:nth-child(odd) { text-align: right; }
+  .why-item-dot {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .dot-inner {
+    width: 10px; height: 10px;
+    border: 1px solid rgba(194,194,194,0.4);
+    border-radius: 50%;
+    background: var(--bg2);
+    position: relative;
+  }
+  .dot-inner::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--silver);
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .why-item-num {
+    font-size: 5rem;
+    font-weight: 200;
+    color: rgba(194,194,194,0.05);
+    letter-spacing: -0.05em;
+    line-height: 1;
+    margin-bottom: -10px;
+  }
+  .why-item-title {
+    font-size: 1.8rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+  .why-item-text {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.75;
+  }
+  .why-item-tag {
+    display: inline-block;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    border: 1px solid rgba(194,194,194,0.18);
+    padding: 6px 14px;
+    margin-top: 20px;
+  }
+
+  /* FEATURED VEHICLE */
+  #featured {
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .featured-header {
+    padding: 120px 60px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .featured-slider {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    overflow: hidden;
+  }
+  .featured-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .featured-slide.active { opacity: 1; }
+  .featured-slide-visual {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-slide-info {
+    width: 380px;
+    background: var(--bg2);
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 1px solid var(--border);
+  }
+  .featured-make {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+  .featured-model {
+    font-size: 2.4rem;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 28px;
+    color: var(--white);
+  }
+  .featured-spec {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 40px;
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+  }
+  .featured-spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .spec-label { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+  .spec-val { font-size: 0.8rem; color: var(--silver); font-weight: 400; }
+  .featured-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .slide-btn {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border);
+    background: none;
+    color: var(--gray);
+    font-size: 1rem;
+    cursor: none;
+    transition: border-color 0.3s, background 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide-btn:hover {
+    border-color: rgba(194,194,194,0.4);
+    background: var(--bg3);
+    color: var(--silver);
+  }
+  .featured-slide-count {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--gray);
+    align-self: flex-end;
+    margin-top: auto;
+  }
+
+  /* FILM TECHNOLOGY */
+  #technology {
+    padding: 140px 60px;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+  }
+  .tech-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    align-items: center;
+    margin-top: 80px;
+  }
+  .tech-visual {
+    position: relative;
+    height: 500px;
+  }
+  .film-layers {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .film-layer {
+    position: absolute;
+    border-radius: 4px;
+    transition: all 0.5s ease;
+  }
+  .tech-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .tech-tab {
+    border-bottom: 1px solid var(--border);
+    padding: 32px 0;
+    cursor: none;
+    transition: padding 0.3s;
+  }
+  .tech-tab:first-child { border-top: 1px solid var(--border); }
+  .tech-tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tech-tab-title {
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+    color: var(--gray-light);
+  }
+  .tech-tab.active .tech-tab-title { color: var(--white); }
+  .tech-tab-icon {
+    width: 28px; height: 28px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    color: var(--gray);
+    transition: border-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  /* Active tab icon has a red accent */
+  .tech-tab.active .tech-tab-icon {
+    border-color: var(--red);
+    color: var(--silver);
+    transform: rotate(45deg);
+  }
+  .tech-tab-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s;
+  }
+  .tech-tab.active .tech-tab-body { max-height: 200px; padding-top: 20px; }
+  .tech-tab-text {
+    font-size: 0.85rem;
+    color: var(--gray);
+    line-height: 1.75;
+  }
+  .tech-stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-top: 16px;
+    font-size: 1.8rem;
+    font-weight: 200;
+    color: var(--silver);
+  }
+  .tech-stat small { font-size: 0.7rem; color: var(--gray); letter-spacing: 0.1em; }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    padding: 120px 60px;
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+  }
+  .testimonial-track {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+  }
+  .testimonial-item {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+  }
+  .testimonial-item.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    position: relative;
+  }
+  .testimonial-quote-mark {
+    font-size: 8rem;
+    line-height: 0.5;
+    color: var(--silver);
+    opacity: 0.08;
+    font-weight: 200;
+    margin-bottom: 20px;
+  }
+  .testimonial-text {
+    font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    color: var(--white);
+    max-width: 900px;
+    margin-bottom: 40px;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .author-line { width: 40px; height: 1px; background: var(--silver); opacity: 0.3; }
+  .author-name { font-size: 0.8rem; color: var(--silver); font-weight: 400; }
+  .author-vehicle { font-size: 0.7rem; color: var(--gray); letter-spacing: 0.1em; }
+  .testimonial-nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 50px;
+  }
+  .testimonial-dot {
+    width: 24px; height: 2px;
+    background: var(--border);
+    cursor: none;
+    transition: background 0.3s, width 0.3s;
+  }
+  /* Active dot in silver; red dot on hover */
+  .testimonial-dot.active { background: var(--silver); width: 48px; }
+  .testimonial-dot:hover:not(.active) { background: var(--red); }
+  .testimonial-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+  /* Stars in muted silver — premium not garish */
+  .star { color: var(--silver); font-size: 0.8rem; opacity: 0.7; }
+
+  /* SERVICE AREA */
+  #service-area {
+    background: var(--bg2);
+    padding: 120px 60px;
+    overflow: hidden;
+  }
+  .area-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 80px;
+  }
+  .area-map {
+    position: relative;
+    height: 480px;
+  }
+  .area-text { }
+  .area-states {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin: 40px 0;
+  }
+  .state-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .state-item:last-child { border-bottom: none; }
+  .state-icon {
+    font-size: 1.5rem;
+    opacity: 0.5;
+  }
+  .state-name {
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-bottom: 6px;
+    color: var(--white);
+  }
+  .state-cities {
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+    line-height: 1.6;
+  }
+  .mobile-note {
+    font-size: 0.75rem;
+    color: var(--silver);
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    opacity: 0.7;
+  }
+  .mobile-note::before { content: ''; display: block; width: 20px; height: 1px; background: var(--silver); opacity: 0.5; }
+
+  /* BOOKING */
+  #booking {
+    padding: 140px 60px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Metallic silver strip at top of booking section */
+  .booking-bg-strip {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(194,194,194,0.3), transparent);
+  }
+  .booking-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+    margin-top: 80px;
+  }
+  .booking-left { }
+  .booking-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 20px;
+  }
+  .booking-tagline {
+    font-size: 3.5rem;
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 32px;
+    color: var(--white);
+  }
+  .booking-tagline em { font-style: italic; color: var(--silver); }
+  .booking-note {
+    font-size: 0.8rem;
+    color: var(--gray);
+    line-height: 1.75;
+    max-width: 380px;
+    margin-bottom: 40px;
+  }
+  .booking-contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-item:hover { color: var(--silver); }
+  .contact-item-icon { font-size: 0.9rem; opacity: 0.5; }
+
+  .booking-form { }
+  .form-group {
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .form-label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 10px;
+  }
+  .form-input, .form-select, .form-textarea {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-bottom: 1px solid rgba(194,194,194,0.18);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.3s, background 0.3s;
+    appearance: none;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: var(--gray); opacity: 0.5; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    background: var(--bg3);
+    border-color: rgba(194,194,194,0.25);
+    /* Red focus indicator — sparingly as specified */
+    border-bottom-color: var(--red);
+  }
+  .form-select { cursor: none; color: var(--gray); }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .form-submit {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .form-disclaimer {
+    font-size: 0.65rem;
+    color: var(--gray);
+    line-height: 1.6;
+    max-width: 280px;
+    opacity: 0.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 80px 60px 40px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .footer-brand { }
+  .footer-logo {
+    font-size: 1.5rem;
+    font-weight: 200;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--silver); }
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 240px;
+  }
+  .footer-badges {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .footer-badge {
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 7px 12px;
+    color: var(--gray);
+    background: var(--bg3);
+  }
+  .footer-col h4 {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--silver);
+    margin-bottom: 20px;
+    font-weight: 400;
+    opacity: 0.7;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a {
+    font-size: 0.8rem;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-col ul a:hover { color: var(--silver); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-copy { font-size: 0.7rem; color: var(--gray); opacity: 0.6; }
+  .footer-social { display: flex; gap: 20px; }
+  .social-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .social-link:hover { color: var(--silver); }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* Silver accent line */
+  .gold-line {
+    width: 40px; height: 1px;
+    background: rgba(194,194,194,0.3);
+    margin-bottom: 24px;
+  }
+
+  /* Section label */
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 0 0 40px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-num {
+    font-size: 0.6rem;
+    color: var(--gray);
+    letter-spacing: 0.2em;
+  }
+
+  /* Map SVG styles — silver tones */
+  .map-path {
+    fill: rgba(194,194,194,0.04);
+    stroke: rgba(194,194,194,0.2);
+    stroke-width: 1;
+    transition: fill 0.3s;
+    cursor: none;
+  }
+  .map-path:hover { fill: rgba(194,194,194,0.08); }
+  .map-path.highlighted {
+    fill: rgba(194,194,194,0.06);
+    stroke: rgba(194,194,194,0.35);
+    animation: mapPulse 3s ease infinite;
+  }
+  @keyframes mapPulse {
+    0%, 100% { fill: rgba(194,194,194,0.04); }
+    50% { fill: rgba(194,194,194,0.1); }
+  }
+  /* Map dots in deep red — premium accent */
+  .map-dot {
+    fill: var(--red);
+    animation: dotPulse 2s ease infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { r: 4; opacity: 1; }
+    50% { r: 6; opacity: 0.6; }
+  }
+
+  /* Progress bar */
+  .tech-bar {
+    height: 1px;
+    background: var(--border);
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tech-bar-fill {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    background: linear-gradient(to right, var(--silver), rgba(194,194,194,0.5));
+    width: 0;
+    transition: width 1s ease;
+  }
+
+  /* Mobile hamburger */
+  .nav-burger { display: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 16px 24px; }
+    .nav-links, .nav-cta { display: none; }
+    .nav-burger {
+      display: block;
+      width: 28px; height: 16px;
+      position: relative;
+      cursor: none;
+    }
+    .hero-content { padding: 0 24px 80px; }
+    .hero-metrics { right: 24px; bottom: 80px; }
+    .services-header { flex-direction: column; gap: 20px; padding: 60px 24px 40px; }
+    .services-panels { height: auto; flex-direction: column; }
+    .service-panel { flex: none; height: 200px; }
+    .service-panel:hover { flex: none; height: 260px; }
+    .portfolio-header { flex-direction: column; gap: 20px; padding: 0 24px 40px; }
+    .masonry-grid { display: flex; flex-wrap: wrap; gap: 3px; }
+    .masonry-item { flex: 1 1 calc(50% - 3px); min-height: 180px; }
+    #why { padding: 80px 24px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-timeline-line { display: none; }
+    .why-item { padding: 40px 0; text-align: left !important; border-bottom: 1px solid var(--border); }
+    .why-item-dot { display: none; }
+    .tech-layout { grid-template-columns: 1fr; gap: 60px; }
+    .tech-visual { height: 280px; }
+    .area-grid { grid-template-columns: 1fr; }
+    .area-map { height: 300px; }
+    .booking-layout { grid-template-columns: 1fr; gap: 60px; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    #testimonials { padding: 80px 24px; }
+    #service-area { padding: 80px 24px; }
+    #booking { padding: 80px 24px; }
+    footer { padding: 60px 24px 30px; }
+    .featured-slide { flex-direction: column; }
+    .featured-slide-info { width: 100%; padding: 30px; }
+    .featured-slider { height: auto; }
+    .form-grid { grid-template-columns: 1fr; }
+    .tech-layout { margin-top: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Prestige <span>Auto</span> Tints</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#technology">Technology</a></li>
+    <li><a href="#service-area">Areas</a></li>
+  </ul>
+  <a href="#booking" class="nav-cta">Book Consultation</a>
+  <div class="nav-burger" aria-label="Menu">
+    <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
+      <line x1="0" y1="1" x2="28" y2="1" stroke="#F5F5F5" stroke-width="1.5"/>
+      <line x1="8" y1="8" x2="28" y2="8" stroke="#F5F5F5" stroke-width="1.5"/>
+      <line x1="4" y1="15" x2="28" y2="15" stroke="#F5F5F5" stroke-width="1.5"/>
+    </svg>
+  </div>
+</nav>
+
+<!-- 1. HERO -->
+<section id="hero">
+  <div class="hero-visual">
+    <div class="hero-visual-inner">
+      <!-- Abstract luxury automotive background -->
+      <svg width="100%" height="100%" viewBox="0 0 1400 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;opacity:0.4">
+        <!-- Grid lines -->
+        <defs>
+          <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#C89B3C" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#C89B3C" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#C89B3C" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="vGridGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#C89B3C" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#C89B3C" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#C89B3C" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="centerGlow" cx="65%" cy="45%" r="40%">
+            <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.06"/>
+            <stop offset="100%" stop-color="#C89B3C" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="1400" height="800" fill="url(#centerGlow)"/>
+        <!-- Horizontal grid -->
+        <line x1="0" y1="100" x2="1400" y2="100" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <line x1="0" y1="200" x2="1400" y2="200" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <line x1="0" y1="300" x2="1400" y2="300" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <line x1="0" y1="400" x2="1400" y2="400" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <line x1="0" y1="500" x2="1400" y2="500" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <line x1="0" y1="600" x2="1400" y2="600" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <line x1="0" y1="700" x2="1400" y2="700" stroke="url(#gridGrad)" stroke-width="0.5"/>
+        <!-- Vertical -->
+        <line x1="200" y1="0" x2="200" y2="800" stroke="url(#vGridGrad)" stroke-width="0.5"/>
+        <line x1="400" y1="0" x2="400" y2="800" stroke="url(#vGridGrad)" stroke-width="0.5"/>
+        <line x1="600" y1="0" x2="600" y2="800" stroke="url(#vGridGrad)" stroke-width="0.5"/>
+        <line x1="800" y1="0" x2="800" y2="800" stroke="url(#vGridGrad)" stroke-width="0.5"/>
+        <line x1="1000" y1="0" x2="1000" y2="800" stroke="url(#vGridGrad)" stroke-width="0.5"/>
+        <line x1="1200" y1="0" x2="1200" y2="800" stroke="url(#vGridGrad)" stroke-width="0.5"/>
+      </svg>
+
+      <!-- Abstract luxury car silhouette -->
+      <svg width="55%" height="80%" viewBox="0 0 900 400" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;right:0;top:50%;transform:translateY(-50%);opacity:0.9">
+        <defs>
+          <linearGradient id="carBodyGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.0"/>
+            <stop offset="40%" stop-color="#C89B3C" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.05"/>
+          </linearGradient>
+          <linearGradient id="windowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.03"/>
+          </linearGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Car body outline - luxury sedan -->
+        <path d="M60 280 C60 280 80 280 120 275 L200 275 C220 275 250 240 280 215 C310 190 360 170 420 162 C480 155 560 155 620 160 C680 165 730 178 770 195 C800 210 820 240 830 260 L850 280 L870 280 C880 280 888 285 888 292 L888 310 C888 316 882 320 875 320 L60 320 C52 320 45 314 45 307 L45 292 C45 285 52 280 60 280 Z" 
+          fill="url(#carBodyGrad)" stroke="#C89B3C" stroke-width="1" stroke-opacity="0.4" filter="url(#glow)"/>
+        <!-- Roof line -->
+        <path d="M280 215 C300 195 340 175 400 165 C460 155 560 153 620 158 C680 163 730 175 760 195"
+          fill="none" stroke="#C89B3C" stroke-width="1.5" stroke-opacity="0.6" filter="url(#glow)"/>
+        <!-- Window -->
+        <path d="M295 215 C315 195 350 178 405 170 C455 163 545 162 600 168 C640 174 680 188 720 210 L295 215 Z"
+          fill="url(#windowGrad)" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.3"/>
+        <!-- Door line -->
+        <line x1="520" y1="167" x2="515" y2="278" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.25"/>
+        <!-- Front wheel arch -->
+        <ellipse cx="220" cy="310" rx="60" ry="35" fill="none" stroke="#C89B3C" stroke-width="1" stroke-opacity="0.5"/>
+        <ellipse cx="220" cy="310" rx="40" ry="23" fill="none" stroke="#C89B3C" stroke-width="0.5" stroke-opacity="0.3"/>
+        <!-- Rear wheel arch -->
+        <ellipse cx="710" cy="310" rx="60" ry="35" fill="none" stroke="#C89B3C" stroke-width="1" stroke-opacity="0.5"/>
+        <ellipse cx="710" cy="310" rx="40" ry="23" fill="none" stroke="#C89B3C" stroke-width="0.5" stroke-opacity="0.3"/>
+        <!-- Rim details -->
+        <ellipse cx="220" cy="310" rx="20" ry="12" fill="rgba(200,155,60,0.08)" stroke="#C89B3C" stroke-width="0.5" stroke-opacity="0.4"/>
+        <ellipse cx="710" cy="310" rx="20" ry="12" fill="rgba(200,155,60,0.08)" stroke="#C89B3C" stroke-width="0.5" stroke-opacity="0.4"/>
+        <!-- Grill detail -->
+        <rect x="68" y="265" width="30" height="15" rx="2" fill="none" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.4"/>
+        <!-- Tail light -->
+        <rect x="838" y="265" width="28" height="18" rx="1" fill="rgba(200,155,60,0.12)" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.5"/>
+        <!-- Ground shadow -->
+        <ellipse cx="460" cy="340" rx="380" ry="18" fill="rgba(200,155,60,0.04)"/>
+      </svg>
+    </div>
+  </div>
+  <div class="hero-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="eyebrow">Certified XPEL Installer — CT & NY</span>
+    </div>
+    <h1 class="display-xl hero-title">
+      <span class="line">Where</span>
+      <span class="line">Precision<em class="italic"> Meets</em></span>
+      <span class="line">Protection.</span>
+    </h1>
+    <p class="hero-sub">Paint protection film, ceramic coating, and premium window tint for discerning owners who demand nothing less than perfection.</p>
+    <div class="hero-ctas">
+      <a href="#booking" class="btn-primary">Request a Quote</a>
+      <a href="#portfolio" class="btn-ghost">View Our Work <span>→</span></a>
+    </div>
+  </div>
+
+  <div class="hero-metrics">
+    <div class="metric-item">
+      <div class="metric-num">500<span>+</span></div>
+      <div class="metric-label">Vehicles Protected</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-num">8<span>yr</span></div>
+      <div class="metric-label">XPEL Certified</div>
+    </div>
+    <div class="metric-item">
+      <div class="metric-num">2</div>
+      <div class="metric-label">States Served</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <div class="scroll-line"></div>
+    <div class="scroll-label">Scroll</div>
+  </div>
+</section>
+
+<!-- 2. SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="services-header-left reveal">
+      <div class="section-label">
+        <span class="eyebrow">Our Services</span>
+      </div>
+      <h2 class="display-md">Every surface.<br>Every detail.</h2>
+    </div>
+    <div class="services-header-right reveal reveal-delay-2">
+      Hover to explore our full suite of protective and enhancement services — each installed with uncompromising precision.
+    </div>
+  </div>
+  <div class="services-panels">
+
+    <div class="service-panel sp-ppf">
+      <div class="service-panel-bg"></div>
+      <div class="service-panel-inner">
+        <div>
+          <div class="service-panel-num">01</div>
+          <div class="service-panel-icon">🛡</div>
+        </div>
+        <div class="service-panel-bottom">
+          <div class="service-panel-title">Paint Protection Film</div>
+          <p class="service-panel-desc">XPEL ULTIMATE PLUS™ self-healing film. Guards against rock chips, road debris, and environmental contaminants. Near-invisible protection with a lifetime warranty.</p>
+          <a href="#booking" class="service-panel-link">Inquire →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel sp-ceramic">
+      <div class="service-panel-bg"></div>
+      <div class="service-panel-inner">
+        <div>
+          <div class="service-panel-num">02</div>
+          <div class="service-panel-icon">✦</div>
+        </div>
+        <div class="service-panel-bottom">
+          <div class="service-panel-title">Ceramic Coating</div>
+          <p class="service-panel-desc">XPEL Fusion Plus ceramic coating delivers unmatched hydrophobic performance, UV resistance, and deep gloss enhancement that lasts years.</p>
+          <a href="#booking" class="service-panel-link">Inquire →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel sp-tint">
+      <div class="service-panel-bg"></div>
+      <div class="service-panel-inner">
+        <div>
+          <div class="service-panel-num">03</div>
+          <div class="service-panel-icon">◈</div>
+        </div>
+        <div class="service-panel-bottom">
+          <div class="service-panel-title">Window Tint</div>
+          <p class="service-panel-desc">XPEL PRIME XR Plus™ ceramic window film. Blocks 98% of infrared heat while maintaining optical clarity. Legal in CT & NY.</p>
+          <a href="#booking" class="service-panel-link">Inquire →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel sp-ppf-tint">
+      <div class="service-panel-bg"></div>
+      <div class="service-panel-inner">
+        <div>
+          <div class="service-panel-num">04</div>
+          <div class="service-panel-icon">◉</div>
+        </div>
+        <div class="service-panel-bottom">
+          <div class="service-panel-title">PPF + Tint Combo</div>
+          <p class="service-panel-desc">Our most popular package. Full-vehicle PPF coverage paired with ceramic window tint — the definitive luxury protection suite.</p>
+          <a href="#booking" class="service-panel-link">Inquire →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel sp-wrap">
+      <div class="service-panel-bg"></div>
+      <div class="service-panel-inner">
+        <div>
+          <div class="service-panel-num">05</div>
+          <div class="service-panel-icon">◐</div>
+        </div>
+        <div class="service-panel-bottom">
+          <div class="service-panel-title">Vinyl Wrap</div>
+          <p class="service-panel-desc">Transform your vehicle's appearance with premium 3M or AVERY vinyl wrap. Color changes, accents, and full-vehicle transformations with precision finish.</p>
+          <a href="#booking" class="service-panel-link">Inquire →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 3. PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div class="reveal">
+      <div class="section-label">
+        <span class="eyebrow">Portfolio</span>
+      </div>
+      <h2 class="display-md">Completed<br><em style="color:var(--gold);font-style:italic">Installations</em></h2>
+    </div>
+    <div class="portfolio-filter reveal reveal-delay-2">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">PPF</button>
+      <button class="filter-btn">Ceramic</button>
+      <button class="filter-btn">Tint</button>
+    </div>
+  </div>
+
+  <div class="masonry-grid">
+    <!-- Vehicle silhouettes as artistic portfolio items -->
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #0f0f0f 0%, #1e1e1e 40%, #141414 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="70%" height="50%" viewBox="0 0 800 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 200 C50 200 100 200 160 195 L240 195 C270 195 310 165 350 140 C390 115 440 100 510 94 C560 89 640 89 700 95 C740 100 760 130 775 155 L790 195 L800 195" fill="rgba(200,155,60,0.06)" stroke="rgba(200,155,60,0.45)" stroke-width="1.5"/>
+          <path d="M350 140 C380 120 420 106 490 98 C545 92 640 90 700 95 C740 100 756 125 770 148" fill="none" stroke="rgba(200,155,60,0.3)" stroke-width="1"/>
+          <ellipse cx="185" cy="208" rx="45" ry="22" fill="none" stroke="rgba(200,155,60,0.4)" stroke-width="1.2"/>
+          <ellipse cx="690" cy="208" rx="45" ry="22" fill="none" stroke="rgba(200,155,60,0.4)" stroke-width="1.2"/>
+          <text x="400" y="240" fill="rgba(200,155,60,0.15)" font-size="11" text-anchor="middle" letter-spacing="8" font-family="Inter,sans-serif">FULL WRAP — SATIN GREY</text>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Porsche 911 GT3</div>
+          <div class="masonry-service">Full PPF — XPEL Ultimate Plus</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #101520 0%, #182030 60%, #0f1420 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="85%" height="70%" viewBox="0 0 500 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 150 C60 150 90 148 120 145 L170 145 C195 145 220 128 250 112 C275 98 310 90 360 86 C400 83 450 85 480 92 L495 145 L495 158 L30 158 Z" fill="rgba(180,160,140,0.08)" stroke="rgba(200,155,60,0.35)" stroke-width="1.2"/>
+          <ellipse cx="120" cy="160" rx="32" ry="16" fill="none" stroke="rgba(200,155,60,0.4)" stroke-width="1"/>
+          <ellipse cx="420" cy="160" rx="32" ry="16" fill="none" stroke="rgba(200,155,60,0.4)" stroke-width="1"/>
+          <path d="M250 112 C270 98 300 92 345 88 C385 85 440 86 478 93" fill="none" stroke="rgba(200,155,60,0.2)" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">BMW M4 Competition</div>
+          <div class="masonry-service">Ceramic Coating + Tint</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #140a0a 0%, #221212 50%, #140a0a 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="80%" height="60%" viewBox="0 0 600 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- SUV silhouette -->
+          <path d="M40 175 L50 175 L55 165 L80 148 L130 132 L200 125 L380 125 L450 130 L510 145 L545 162 L555 175 L560 175 L560 188 L40 188 Z" fill="rgba(200,155,60,0.05)" stroke="rgba(200,155,60,0.4)" stroke-width="1.3"/>
+          <path d="M130 132 L140 90 L190 72 L380 72 L430 85 L450 130" fill="rgba(200,155,60,0.04)" stroke="rgba(200,155,60,0.25)" stroke-width="1"/>
+          <!-- windows -->
+          <path d="M145 130 L155 95 L190 78 L360 78 L395 90 L415 130" fill="rgba(200,155,60,0.06)" stroke="rgba(200,155,60,0.2)" stroke-width="0.8"/>
+          <line x1="270" y1="78" x2="265" y2="130" stroke="rgba(200,155,60,0.15)" stroke-width="0.8"/>
+          <ellipse cx="135" cy="192" rx="38" ry="18" fill="none" stroke="rgba(200,155,60,0.45)" stroke-width="1.2"/>
+          <ellipse cx="465" cy="192" rx="38" ry="18" fill="none" stroke="rgba(200,155,60,0.45)" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Mercedes GLE 63 AMG</div>
+          <div class="masonry-service">XPEL Prime XR Tint</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #0d1210 0%, #161e18 50%, #0d1210 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="85%" height="75%" viewBox="0 0 400 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 120 C40 120 70 118 90 115 L130 115 C150 115 170 100 195 88 C215 78 245 72 285 70 C320 68 360 70 378 76 L385 115 L385 128 L20 128 Z" fill="rgba(200,155,60,0.07)" stroke="rgba(200,155,60,0.4)" stroke-width="1.2"/>
+          <ellipse cx="90" cy="130" rx="28" ry="14" fill="none" stroke="rgba(200,155,60,0.45)" stroke-width="1"/>
+          <ellipse cx="335" cy="130" rx="28" ry="14" fill="none" stroke="rgba(200,155,60,0.45)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Lamborghini Urus</div>
+          <div class="masonry-service">Full PPF + Ceramic</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #111520 0%, #1e2535 50%, #111520 100%);display:flex;align-items:center;justify-content:center;">
+        <div style="font-size:2rem;opacity:0.12;color:#C89B3C;font-family:Inter,sans-serif;font-weight:200;letter-spacing:0.1em;text-align:center">
+          <div>TESLA</div>
+          <div style="font-size:0.6rem;margin-top:8px;letter-spacing:0.2em">MODEL S PLAID</div>
+        </div>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Tesla Model S Plaid</div>
+          <div class="masonry-service">Stealth PPF Wrap</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #1a1008 0%, #2a1a10 50%, #1a1008 100%);"></div>
+      <div class="masonry-overlay" style="opacity:1;background:linear-gradient(to top, rgba(9,9,9,0.95) 0%, rgba(9,9,9,0.3) 100%);">
+        <div class="masonry-info">
+          <div class="masonry-vehicle" style="font-size:0.7rem;color:var(--gold)">+140 More Projects</div>
+          <div class="masonry-service">View Full Gallery</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #12120f 0%, #1e1e18 50%, #12120f 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="80%" height="55%" viewBox="0 0 500 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Sports car low profile -->
+          <path d="M20 135 C20 135 60 132 100 130 L150 130 C175 130 200 112 235 98 C268 85 310 80 365 78 C415 77 455 79 478 90 L490 130 L490 142 L20 142 Z" fill="rgba(200,155,60,0.05)" stroke="rgba(200,155,60,0.38)" stroke-width="1.2"/>
+          <path d="M235 98 C258 85 295 80 355 78 C410 77 455 79 476 90" fill="none" stroke="rgba(200,155,60,0.2)" stroke-width="0.8"/>
+          <ellipse cx="100" cy="144" rx="32" ry="14" fill="none" stroke="rgba(200,155,60,0.4)" stroke-width="1.1"/>
+          <ellipse cx="400" cy="144" rx="32" ry="14" fill="none" stroke="rgba(200,155,60,0.4)" stroke-width="1.1"/>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Ferrari F8 Tributo</div>
+          <div class="masonry-service">Partial Front PPF</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #0f0f15 0%, #181820 50%, #0f0f15 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="80%" height="65%" viewBox="0 0 400 160" fill="none">
+          <circle cx="200" cy="80" r="55" fill="none" stroke="rgba(200,155,60,0.15)" stroke-width="1"/>
+          <circle cx="200" cy="80" r="40" fill="none" stroke="rgba(200,155,60,0.1)" stroke-width="0.8"/>
+          <text x="200" y="86" fill="rgba(200,155,60,0.3)" font-size="12" text-anchor="middle" letter-spacing="5" font-family="Inter,sans-serif" font-weight="300">CERAMIC</text>
+        </svg>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Audi RS6 Avant</div>
+          <div class="masonry-service">Ceramic Coating</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="masonry-item">
+      <div class="masonry-item-bg" style="height:100%;background:linear-gradient(145deg, #0f1818 0%, #182020 50%, #0f1818 100%);display:flex;align-items:center;justify-content:center;">
+        <div style="text-align:center;opacity:0.18">
+          <div style="font-size:3rem;color:#C89B3C">★</div>
+          <div style="font-size:0.6rem;color:#C89B3C;letter-spacing:0.2em;margin-top:4px">XPEL CERTIFIED</div>
+        </div>
+      </div>
+      <div class="masonry-overlay">
+        <div class="masonry-info">
+          <div class="masonry-vehicle">Range Rover SVR</div>
+          <div class="masonry-service">Full PPF + Tint Combo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. WHY PRESTIGE -->
+<section id="why">
+  <div class="why-bg-text">PRESTIGE</div>
+  <div class="reveal">
+    <div class="section-label">
+      <span class="eyebrow">Why Choose Us</span>
+    </div>
+    <h2 class="display-lg">The standard<br>we set for<br><em style="color:var(--gold);font-style:italic">ourselves.</em></h2>
+  </div>
+
+  <div class="why-grid">
+    <!-- Left items -->
+    <div class="why-item reveal">
+      <div class="why-item-num">01</div>
+      <h3 class="why-item-title">Certified XPEL Installer</h3>
+      <p class="why-item-text">We are among an exclusive network of XPEL-certified installers in Connecticut and New York. This certification isn't handed out — it's earned through demonstrated mastery of material, process, and outcome.</p>
+      <div class="why-item-tag">XPEL Authorized</div>
+    </div>
+
+    <div class="why-timeline-line">
+      <div class="timeline-line-inner"></div>
+    </div>
+
+    <div style="grid-column:3"></div>
+    <div style="grid-column:2"><div class="why-item-dot"><div class="dot-inner"></div></div></div>
+    <div class="why-item reveal reveal-delay-1">
+      <div class="why-item-num">02</div>
+      <h3 class="why-item-title">Precision Installation</h3>
+      <p class="why-item-text">Every film and coating application is performed in a controlled, climate-regulated environment. We use computer-cut patterns specific to your vehicle's exact geometry — no bulk trimming, no compromises.</p>
+      <div class="why-item-tag">Zero Compromise</div>
+    </div>
+
+    <div class="why-item reveal reveal-delay-2">
+      <div class="why-item-num">03</div>
+      <h3 class="why-item-title">Lifetime Performance</h3>
+      <p class="why-item-text">XPEL ULTIMATE PLUS™ comes with a lifetime manufacturer warranty for yellowing, cracking, peeling, and delamination. We stand behind every installation with our own workmanship guarantee.</p>
+      <div class="why-item-tag">Warranted for Life</div>
+    </div>
+
+    <div style="grid-column:2"><div class="why-item-dot"><div class="dot-inner"></div></div></div>
+    <div style="grid-column:3"></div>
+
+    <div style="grid-column:2"><div class="why-item-dot"><div class="dot-inner"></div></div></div>
+    <div class="why-item reveal">
+      <div class="why-item-num">04</div>
+      <h3 class="why-item-title">Mobile Service Available</h3>
+      <p class="why-item-text">We bring our full expertise directly to your driveway or garage. Available across Connecticut and New York — your vehicle never needs to leave its home.</p>
+      <div class="why-item-tag">CT & NY</div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. FEATURED VEHICLE SHOWCASE -->
+<section id="featured">
+  <div class="featured-header reveal">
+    <div>
+      <div class="section-label">
+        <span class="eyebrow">Featured Builds</span>
+      </div>
+      <h2 class="display-md">Signature<br><em style="color:var(--gold);font-style:italic">Installations</em></h2>
+    </div>
+  </div>
+
+  <div class="featured-slider" id="featuredSlider">
+
+    <div class="featured-slide active">
+      <div class="featured-slide-visual" style="background:linear-gradient(135deg, #0f0f0f 0%, #1c1c1c 40%, #111 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="70%" height="60%" viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.02"/>
+              <stop offset="50%" stop-color="#C89B3C" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.05"/>
+            </linearGradient>
+          </defs>
+          <!-- Porsche 911 low & wide silhouette -->
+          <path d="M40 215 C70 215 110 213 150 208 L200 208 C230 208 265 185 300 162 C338 137 385 120 455 113 C520 107 610 107 665 115 C720 123 755 152 778 175 L792 208 L800 208 L800 225 L40 225 Z" fill="url(#fg1)" stroke="#C89B3C" stroke-width="1.5" stroke-opacity="0.5"/>
+          <path d="M300 162 C330 140 375 123 448 116 C515 110 612 109 665 117 C720 125 752 150 774 173" fill="none" stroke="#C89B3C" stroke-width="1" stroke-opacity="0.4"/>
+          <!-- Roof -->
+          <path d="M355 162 C375 145 410 132 460 124 C510 118 600 116 648 124 C690 132 730 158 755 180" fill="none" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.25"/>
+          <!-- Window -->
+          <path d="M368 163 C388 147 418 136 462 128 C508 122 595 121 642 129 C680 137 715 158 740 178 L368 163 Z" fill="rgba(200,155,60,0.05)" stroke="rgba(200,155,60,0.2)" stroke-width="0.8"/>
+          <!-- Wheels -->
+          <ellipse cx="195" cy="228" rx="48" ry="24" fill="none" stroke="#C89B3C" stroke-width="1.3" stroke-opacity="0.55"/>
+          <ellipse cx="195" cy="228" rx="30" ry="15" fill="none" stroke="#C89B3C" stroke-width="0.6" stroke-opacity="0.3"/>
+          <ellipse cx="680" cy="228" rx="48" ry="24" fill="none" stroke="#C89B3C" stroke-width="1.3" stroke-opacity="0.55"/>
+          <ellipse cx="680" cy="228" rx="30" ry="15" fill="none" stroke="#C89B3C" stroke-width="0.6" stroke-opacity="0.3"/>
+          <!-- Ground reflection -->
+          <ellipse cx="460" cy="255" rx="340" ry="12" fill="rgba(200,155,60,0.04)"/>
+          <!-- badge -->
+          <text x="460" y="270" fill="rgba(200,155,60,0.12)" font-size="10" text-anchor="middle" letter-spacing="12" font-family="Inter,sans-serif" font-weight="200">PORSCHE 911 GT3</text>
+        </svg>
+      </div>
+      <div class="featured-slide-info">
+        <div class="featured-make">Porsche — 2023</div>
+        <div class="featured-model">911 GT3<br>Touring</div>
+        <div class="featured-spec">
+          <div class="featured-spec-row">
+            <span class="spec-label">Service</span>
+            <span class="spec-val">Full PPF</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Film</span>
+            <span class="spec-val">XPEL Ultimate Plus</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Coverage</span>
+            <span class="spec-val">Full Vehicle</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Finish</span>
+            <span class="spec-val">Gloss</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Warranty</span>
+            <span class="spec-val">Lifetime</span>
+          </div>
+        </div>
+        <div class="featured-nav">
+          <button class="slide-btn" onclick="changeSlide(-1)">←</button>
+          <button class="slide-btn" onclick="changeSlide(1)">→</button>
+          <div class="featured-slide-count" id="slideCount">01 / 03</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="featured-slide">
+      <div class="featured-slide-visual" style="background:linear-gradient(135deg, #0d1018 0%, #181c25 40%, #0d1018 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="70%" height="60%" viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fg2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#4a6080" stop-opacity="0.05"/>
+              <stop offset="50%" stop-color="#C89B3C" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.03"/>
+            </linearGradient>
+          </defs>
+          <!-- Tesla Model S -->
+          <path d="M40 210 C75 210 110 208 145 205 L195 205 C220 205 255 186 295 165 C328 147 370 133 445 126 C510 120 610 120 665 128 C720 136 752 162 773 183 L788 205 L800 205 L800 222 L40 222 Z" fill="url(#fg2)" stroke="#C89B3C" stroke-width="1.4" stroke-opacity="0.45"/>
+          <path d="M290 165 C320 147 362 135 440 128 C508 122 611 121 664 129 C718 137 750 160 771 181" fill="none" stroke="#C89B3C" stroke-width="1.1" stroke-opacity="0.35"/>
+          <!-- Roof arch-->
+          <path d="M310 165 C335 148 375 138 440 132 C505 126 600 125 648 132 C690 139 725 162 755 185" fill="none" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.25"/>
+          <ellipse cx="188" cy="224" rx="45" ry="22" fill="none" stroke="#C89B3C" stroke-width="1.2" stroke-opacity="0.5"/>
+          <ellipse cx="672" cy="224" rx="45" ry="22" fill="none" stroke="#C89B3C" stroke-width="1.2" stroke-opacity="0.5"/>
+          <text x="460" y="268" fill="rgba(200,155,60,0.12)" font-size="10" text-anchor="middle" letter-spacing="14" font-family="Inter,sans-serif">TESLA MODEL S</text>
+        </svg>
+      </div>
+      <div class="featured-slide-info">
+        <div class="featured-make">Tesla — 2024</div>
+        <div class="featured-model">Model S<br>Plaid</div>
+        <div class="featured-spec">
+          <div class="featured-spec-row">
+            <span class="spec-label">Service</span>
+            <span class="spec-val">PPF + Tint</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Film</span>
+            <span class="spec-val">XPEL Stealth</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Coverage</span>
+            <span class="spec-val">Full Vehicle</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Finish</span>
+            <span class="spec-val">Matte</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Warranty</span>
+            <span class="spec-val">Lifetime</span>
+          </div>
+        </div>
+        <div class="featured-nav">
+          <button class="slide-btn" onclick="changeSlide(-1)">←</button>
+          <button class="slide-btn" onclick="changeSlide(1)">→</button>
+          <div class="featured-slide-count" id="slideCount2">02 / 03</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="featured-slide">
+      <div class="featured-slide-visual" style="background:linear-gradient(135deg, #130a08 0%, #1e1210 40%, #130a08 100%);display:flex;align-items:center;justify-content:center;">
+        <svg width="70%" height="60%" viewBox="0 0 800 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fg3" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.01"/>
+              <stop offset="50%" stop-color="#C89B3C" stop-opacity="0.22"/>
+              <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.04"/>
+            </linearGradient>
+          </defs>
+          <!-- SUV - Lamborghini Urus -->
+          <path d="M30 215 C60 215 95 212 130 208 L185 208 C210 208 240 188 270 168 C300 148 340 132 410 124 C475 117 575 117 640 124 C700 130 740 155 765 180 L785 208 L800 208 L800 226 L30 226 Z" fill="url(#fg3)" stroke="#C89B3C" stroke-width="1.5" stroke-opacity="0.48"/>
+          <!-- Roof higher for SUV -->
+          <path d="M270 168 C300 148 338 130 408 122 C473 115 578 115 640 122 C698 128 738 152 762 178" fill="none" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.3"/>
+          <path d="M285 168 L298 112 L350 96 L600 96 L648 112 L665 168" fill="rgba(200,155,60,0.04)" stroke="rgba(200,155,60,0.2)" stroke-width="0.8"/>
+          <!-- window divider -->
+          <line x1="460" y1="96" x2="455" y2="168" stroke="rgba(200,155,60,0.15)" stroke-width="0.8"/>
+          <ellipse cx="170" cy="228" rx="50" ry="24" fill="none" stroke="#C89B3C" stroke-width="1.3" stroke-opacity="0.5"/>
+          <ellipse cx="680" cy="228" rx="50" ry="24" fill="none" stroke="#C89B3C" stroke-width="1.3" stroke-opacity="0.5"/>
+          <text x="430" y="272" fill="rgba(200,155,60,0.12)" font-size="10" text-anchor="middle" letter-spacing="14" font-family="Inter,sans-serif">LAMBORGHINI URUS</text>
+        </svg>
+      </div>
+      <div class="featured-slide-info">
+        <div class="featured-make">Lamborghini — 2023</div>
+        <div class="featured-model">Urus<br>Performante</div>
+        <div class="featured-spec">
+          <div class="featured-spec-row">
+            <span class="spec-label">Service</span>
+            <span class="spec-val">Full PPF + Ceramic</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Film</span>
+            <span class="spec-val">XPEL Ultimate Plus</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Coating</span>
+            <span class="spec-val">XPEL Fusion Plus</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Finish</span>
+            <span class="spec-val">High Gloss</span>
+          </div>
+          <div class="featured-spec-row">
+            <span class="spec-label">Warranty</span>
+            <span class="spec-val">Lifetime</span>
+          </div>
+        </div>
+        <div class="featured-nav">
+          <button class="slide-btn" onclick="changeSlide(-1)">←</button>
+          <button class="slide-btn" onclick="changeSlide(1)">→</button>
+          <div class="featured-slide-count">03 / 03</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 6. FILM TECHNOLOGY -->
+<section id="technology">
+  <div class="reveal">
+    <div class="section-label">
+      <span class="eyebrow">Film Technology</span>
+    </div>
+    <h2 class="display-md">Engineered<br>to <em style="color:var(--gold);font-style:italic">Endure.</em></h2>
+  </div>
+
+  <div class="tech-layout">
+    <div class="tech-visual">
+      <div class="film-layers" id="filmLayers">
+        <!-- Animated layered film visualization -->
+        <svg width="100%" height="100%" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" id="filmSVG">
+          <defs>
+            <linearGradient id="layer1Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.1"/>
+            </linearGradient>
+            <linearGradient id="layer2Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#6090C0" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#6090C0" stop-opacity="0.08"/>
+            </linearGradient>
+            <linearGradient id="layer3Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#C89B3C" stop-opacity="0.06"/>
+            </linearGradient>
+            <linearGradient id="layer4Grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.08"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0.02"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Layer 4 - Paint (bottom) -->
+          <rect x="40" y="380" width="320" height="60" rx="2" fill="url(#layer4Grad)" stroke="rgba(255,255,255,0.08)" stroke-width="1" class="film-layer-rect" data-layer="4"/>
+          <text x="200" y="414" fill="rgba(255,255,255,0.3)" font-size="10" text-anchor="middle" letter-spacing="4" font-family="Inter,sans-serif">PAINT SURFACE</text>
+
+          <!-- Layer 3 - Adhesive -->
+          <rect x="40" y="300" width="320" height="70" rx="2" fill="url(#layer3Grad)" stroke="rgba(200,155,60,0.2)" stroke-width="1" class="film-layer-rect" data-layer="3"/>
+          <text x="200" y="330" fill="rgba(200,155,60,0.6)" font-size="10" text-anchor="middle" letter-spacing="4" font-family="Inter,sans-serif">ADHESIVE LAYER</text>
+          <text x="200" y="350" fill="rgba(200,155,60,0.3)" font-size="8" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">REPOSITIONABLE</text>
+
+          <!-- Layer 2 - TPU Film Core -->
+          <rect x="40" y="180" width="320" height="110" rx="2" fill="url(#layer2Grad)" stroke="rgba(96,144,192,0.35)" stroke-width="1" class="film-layer-rect" data-layer="2"/>
+          <text x="200" y="228" fill="rgba(150,190,230,0.7)" font-size="10" text-anchor="middle" letter-spacing="4" font-family="Inter,sans-serif">TPU FILM CORE</text>
+          <text x="200" y="252" fill="rgba(150,190,230,0.35)" font-size="8" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">SELF-HEALING · 8 MIL</text>
+
+          <!-- Layer 1 - Clear Coat (top) -->
+          <rect x="40" y="100" width="320" height="70" rx="2" fill="url(#layer1Grad)" stroke="rgba(200,155,60,0.45)" stroke-width="1" class="film-layer-rect" data-layer="1"/>
+          <text x="200" y="130" fill="rgba(200,155,60,0.8)" font-size="10" text-anchor="middle" letter-spacing="4" font-family="Inter,sans-serif">CLEAR COAT</text>
+          <text x="200" y="152" fill="rgba(200,155,60,0.45)" font-size="8" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">ANTI-YELLOWING · UV BLOCK</text>
+
+          <!-- Arrows showing protection -->
+          <line x1="370" y1="60" x2="370" y2="100" stroke="#C89B3C" stroke-width="1" stroke-opacity="0.5" stroke-dasharray="4,3"/>
+          <polygon points="370,100 365,88 375,88" fill="#C89B3C" fill-opacity="0.5"/>
+          <text x="385" y="80" fill="rgba(200,155,60,0.5)" font-size="9" letter-spacing="1" font-family="Inter,sans-serif" transform="rotate(-90, 385, 80)" text-anchor="middle">IMPACT</text>
+
+          <!-- UV rays coming in from top -->
+          <line x1="100" y1="30" x2="120" y2="100" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.3" stroke-dasharray="3,4"/>
+          <line x1="160" y1="20" x2="170" y2="100" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.25" stroke-dasharray="3,4"/>
+          <line x1="230" y1="25" x2="225" y2="100" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.2" stroke-dasharray="3,4"/>
+          <text x="160" y="18" fill="rgba(200,155,60,0.3)" font-size="8" text-anchor="middle" letter-spacing="2" font-family="Inter,sans-serif">UV / HEAT / IMPACT</text>
+
+          <!-- label lines -->
+          <line x1="40" y1="135" x2="20" y2="135" stroke="rgba(200,155,60,0.2)" stroke-width="0.8"/>
+          <line x1="40" y1="235" x2="20" y2="235" stroke="rgba(96,144,192,0.2)" stroke-width="0.8"/>
+          <line x1="40" y1="335" x2="20" y2="335" stroke="rgba(200,155,60,0.15)" stroke-width="0.8"/>
+          <line x1="40" y1="410" x2="20" y2="410" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="tech-tabs">
+      <div class="tech-tab active" onclick="openTab(this, 0)">
+        <div class="tech-tab-header">
+          <div class="tech-tab-title">Heat Rejection</div>
+          <div class="tech-tab-icon">+</div>
+        </div>
+        <div class="tech-tab-body">
+          <p class="tech-tab-text">XPEL PRIME XR Plus™ ceramic window film rejects up to 98% of infrared heat before it enters the cabin — without compromising optical clarity or signal transparency for modern vehicles.</p>
+          <div class="tech-bar"><div class="tech-bar-fill" style="width:98%"></div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <span style="font-size:0.6rem;color:var(--gray);letter-spacing:0.1em">IR REJECTION</span>
+            <span style="font-size:0.6rem;color:var(--gold)">98%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tech-tab" onclick="openTab(this, 1)">
+        <div class="tech-tab-header">
+          <div class="tech-tab-title">UV Protection</div>
+          <div class="tech-tab-icon">+</div>
+        </div>
+        <div class="tech-tab-body">
+          <p class="tech-tab-text">Blocks 99.9% of harmful UV-A and UV-B rays. Protects both your vehicle's interior surfaces and your skin from cumulative sun damage — year round in all weather conditions.</p>
+          <div class="tech-bar"><div class="tech-bar-fill" style="width:99.9%"></div></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px">
+            <span style="font-size:0.6rem;color:var(--gray);letter-spacing:0.1em">UV REJECTION</span>
+            <span style="font-size:0.6rem;color:var(--gold)">99.9%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tech-tab" onclick="openTab(this, 2)">
+        <div class="tech-tab-header">
+          <div class="tech-tab-title">Self-Healing Technology</div>
+          <div class="tech-tab-icon">+</div>
+        </div>
+        <div class="tech-tab-body">
+          <p class="tech-tab-text">XPEL ULTIMATE PLUS™ PPF features an elastomeric polymer top coat. Light surface swirls and scuffs vanish on their own through heat activation — from sunlight or warm water — restoring a flawless finish.</p>
+          <div class="tech-stat">~70°F <small>ACTIVATION TEMP</small></div>
+        </div>
+      </div>
+
+      <div class="tech-tab" onclick="openTab(this, 3)">
+        <div class="tech-tab-header">
+          <div class="tech-tab-title">Optical Clarity</div>
+          <div class="tech-tab-icon">+</div>
+        </div>
+        <div class="tech-tab-body">
+          <p class="tech-tab-text">XPEL film achieves near-perfect optical clarity — invisible to the eye and without any orange-peel texture. Once installed, the film disappears into the paint. Protection you can't see.</p>
+          <div class="tech-stat">99.5% <small>LIGHT TRANSMISSION (CLEAR)</small></div>
+        </div>
+      </div>
+
+      <div class="tech-tab" onclick="openTab(this, 4)">
+        <div class="tech-tab-header">
+          <div class="tech-tab-title">Hydrophobic Performance</div>
+          <div class="tech-tab-icon">+</div>
+        </div>
+        <div class="tech-tab-body">
+          <p class="tech-tab-text">XPEL Fusion Plus ceramic coating creates a nano-ceramic bond with contact angles exceeding 110°. Water, mud, and contaminants sheet off effortlessly — keeping your vehicle cleaner, longer.</p>
+          <div class="tech-stat">110° <small>CONTACT ANGLE</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal" style="margin-bottom:20px">
+    <div class="section-label">
+      <span class="eyebrow">Client Testimonials</span>
+    </div>
+  </div>
+
+  <div class="testimonial-track">
+    <div class="testimonial-item active">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <div class="testimonial-quote-mark">"</div>
+      <p class="testimonial-text">Prestige did a full XPEL wrap on my 911 GT3 RS. The attention to detail was extraordinary — every edge, every curve was perfect. This is the only shop I'll ever use.</p>
+      <div class="testimonial-author">
+        <div class="author-line"></div>
+        <div>
+          <div class="author-name">Michael R.</div>
+          <div class="author-vehicle">Porsche 911 GT3 RS — Full PPF</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-item">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <div class="testimonial-quote-mark">"</div>
+      <p class="testimonial-text">I've had multiple cars tinted over the years. Nothing compares to the XPEL Prime XR Plus on my Urus. Crystal clear, keeps the cabin cool, and I had zero bubbles. Flawless.</p>
+      <div class="testimonial-author">
+        <div class="author-line"></div>
+        <div>
+          <div class="author-name">Sophia L.</div>
+          <div class="author-vehicle">Lamborghini Urus — XPEL Tint</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-item">
+      <div class="testimonial-stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      </div>
+      <div class="testimonial-quote-mark">"</div>
+      <p class="testimonial-text">They came to my driveway in Greenwich, wrapped the entire Model S in stealth PPF, and left it looking like a factory matte finish. Professional, fast, and genuinely passionate about the craft.</p>
+      <div class="testimonial-author">
+        <div class="author-line"></div>
+        <div>
+          <div class="author-name">James T.</div>
+          <div class="author-vehicle">Tesla Model S — Stealth PPF</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonial-nav" id="testimonialNav">
+    <div class="testimonial-dot active" onclick="showTestimonial(0)"></div>
+    <div class="testimonial-dot" onclick="showTestimonial(1)"></div>
+    <div class="testimonial-dot" onclick="showTestimonial(2)"></div>
+  </div>
+</section>
+
+<!-- 8. SERVICE AREA -->
+<section id="service-area">
+  <div class="reveal">
+    <div class="section-label">
+      <span class="eyebrow">Service Area</span>
+    </div>
+    <h2 class="display-md">Connecticut<br>&amp; <em style="color:var(--gold);font-style:italic">New York.</em></h2>
+  </div>
+
+  <div class="area-grid">
+    <div class="area-map">
+      <!-- SVG Map of CT and NY -->
+      <svg viewBox="0 0 500 480" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <defs>
+          <radialGradient id="mapGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#C89B3C" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#C89B3C" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="500" height="480" fill="url(#mapGlow)"/>
+
+        <!-- New York State shape (simplified) -->
+        <path class="map-path highlighted" d="
+          M 60 60
+          L 180 50
+          L 250 45
+          L 310 40
+          L 340 55
+          L 370 80
+          L 395 110
+          L 410 140
+          L 415 170
+          L 405 200
+          L 390 225
+          L 370 245
+          L 350 260
+          L 380 290
+          L 370 310
+          L 340 325
+          L 300 340
+          L 260 345
+          L 230 340
+          L 210 330
+          L 190 320
+          L 170 295
+          L 155 270
+          L 140 280
+          L 120 270
+          L 100 255
+          L 85 240
+          L 80 220
+          L 70 200
+          L 55 180
+          L 45 160
+          L 40 130
+          L 45 100
+          L 55 75
+          Z
+        " stroke-opacity="0.5"/>
+
+        <!-- Long Island (simplified) -->
+        <path class="map-path" d="
+          M 210 330
+          L 240 325
+          L 280 320
+          L 320 315
+          L 360 318
+          L 400 325
+          L 440 340
+          L 470 355
+          L 480 365
+          L 460 375
+          L 420 372
+          L 380 368
+          L 340 365
+          L 300 355
+          L 260 348
+          L 225 342
+          L 210 338
+          Z
+        " stroke-opacity="0.35"/>
+
+        <!-- Connecticut shape (simplified) -->
+        <path class="map-path highlighted" d="
+          M 340 255
+          L 370 248
+          L 400 242
+          L 430 240
+          L 455 242
+          L 470 250
+          L 475 268
+          L 472 290
+          L 460 310
+          L 440 325
+          L 410 335
+          L 380 340
+          L 350 342
+          L 330 338
+          L 315 328
+          L 305 312
+          L 305 295
+          L 315 278
+          L 328 263
+          Z
+        " stroke-opacity="0.6"/>
+
+        <!-- Location dots -->
+        <g>
+          <!-- NYC/Stamford area -->
+          <circle cx="300" cy="312" r="5" class="map-dot"/>
+          <circle cx="300" cy="312" r="14" fill="none" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.4" stroke-dasharray="3,3">
+            <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="3s" repeatCount="indefinite" additive="sum" transformOrigin="300 312"/>
+          </circle>
+
+          <!-- Hartford CT -->
+          <circle cx="390" cy="280" r="4" class="map-dot"/>
+          <circle cx="390" cy="280" r="12" fill="none" stroke="#C89B3C" stroke-width="0.8" stroke-opacity="0.3" stroke-dasharray="3,3">
+            <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="3.5s" repeatCount="indefinite" additive="sum" transformOrigin="390 280"/>
+          </circle>
+
+          <!-- Albany area -->
+          <circle cx="210" cy="170" r="4" class="map-dot"/>
+
+          <!-- Greenwich CT / Westchester -->
+          <circle cx="335" cy="308" r="3.5" fill="#C89B3C" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+
+        <!-- Labels -->
+        <text x="200" y="200" fill="rgba(255,255,255,0.12)" font-size="18" font-family="Inter,sans-serif" font-weight="200" letter-spacing="4">NEW YORK</text>
+        <text x="368" y="302" fill="rgba(255,255,255,0.1)" font-size="11" font-family="Inter,sans-serif" font-weight="200" letter-spacing="3">CT</text>
+
+        <!-- Service radius circle -->
+        <circle cx="320" cy="290" r="130" fill="none" stroke="#C89B3C" stroke-width="0.5" stroke-opacity="0.12" stroke-dasharray="6,8"/>
+
+        <!-- Water/ocean bottom -->
+        <path d="M 0 400 Q 250 410 500 400 L 500 480 L 0 480 Z" fill="rgba(200,155,60,0.02)" stroke="rgba(200,155,60,0.08)" stroke-width="0.5"/>
+      </svg>
+    </div>
+
+    <div class="area-text reveal">
+      <div class="area-states">
+        <div class="state-item">
+          <div class="state-icon">🗺</div>
+          <div>
+            <div class="state-name">Connecticut</div>
+            <div class="state-cities">Greenwich · Stamford · Westport · Darien · New Canaan · Fairfield · Hartford · New Haven · Norwalk · Bridgeport</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <div class="state-icon">🗽</div>
+          <div>
+            <div class="state-name">New York</div>
+            <div class="state-cities">New York City · Westchester · Long Island · White Plains · Yonkers · Tarrytown · Scarsdale · Great Neck · The Hamptons</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-note">Mobile service available — we come to you</div>
+
+      <p class="body-text" style="margin-top:28px">Not sure if we cover your area? Reach out — we travel for the right vehicle. Our mobile installation service brings professional-grade results directly to your home or office.</p>
+
+      <a href="#booking" class="btn-primary" style="display:inline-block;margin-top:36px">Check Your Location</a>
+    </div>
+  </div>
+</section>
+
+<!-- 9. BOOKING -->
+<section id="booking">
+  <div class="booking-bg-strip"></div>
+
+  <div class="booking-layout">
+    <div class="booking-left reveal">
+      <div class="booking-tag">Start Your Project</div>
+      <h2 class="booking-tagline">Book a<br><em>Consultation.</em></h2>
+      <p class="booking-note">Every project begins with a conversation. Tell us about your vehicle and your goals — we'll recommend the right protection package and provide a detailed quote within 24 hours.</p>
+
+      <div class="booking-contact-items">
+        <a href="https://www.instagram.com/prestigeauto.tints/" target="_blank" class="contact-item">
+          <span class="contact-item-icon">📷</span>
+          @prestigeauto.tints
+        </a>
+        <a href="https://maps.app.goo.gl/Nv1toNk2z31agVrv8" target="_blank" class="contact-item">
+          <span class="contact-item-icon">📍</span>
+          View on Google Maps
+        </a>
+        <div class="contact-item">
+          <span class="contact-item-icon">⏱</span>
+          Response within 24 hours
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-icon">🚗</span>
+          Mobile service available
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-form reveal reveal-delay-2">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="James">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Thornton">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="james@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input type="tel" class="form-input" placeholder="+1 (203) 555-0100">
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Vehicle Make</label>
+          <input type="text" class="form-input" placeholder="Porsche">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Vehicle Model</label>
+          <input type="text" class="form-input" placeholder="911 GT3">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Service Interest</label>
+        <select class="form-select">
+          <option value="" disabled selected>Select a service</option>
+          <option>Paint Protection Film (PPF)</option>
+          <option>Ceramic Coating</option>
+          <option>Window Tint</option>
+          <option>PPF + Tint Combo</option>
+          <option>Vinyl Wrap</option>
+          <option>Full Protection Package</option>
+          <option>Not Sure — Need Consultation</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Additional Notes</label>
+        <textarea class="form-textarea" placeholder="Tell us about your vehicle, timeline, or any specific concerns..."></textarea>
+      </div>
+      <div class="form-submit">
+        <button class="btn-primary" style="cursor:none">Send Inquiry →</button>
+        <p class="form-disclaimer">We respond within 24 hours. Your information is never shared.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">Prestige <span>Auto</span> Tints</div>
+      <p class="footer-tagline">Certified XPEL installer serving Connecticut and New York with uncompromising precision.</p>
+      <div class="footer-badges">
+        <div class="footer-badge">XPEL Certified</div>
+        <div class="footer-badge">CT & NY</div>
+        <div class="footer-badge">Mobile Service</div>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Paint Protection Film</a></li>
+        <li><a href="#services">Ceramic Coating</a></li>
+        <li><a href="#services">Window Tint</a></li>
+        <li><a href="#services">Vinyl Wrap</a></li>
+        <li><a href="#services">PPF + Tint Combo</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#why">About Us</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#service-area">Service Areas</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#booking">Book Consultation</a></li>
+        <li><a href="https://www.instagram.com/prestigeauto.tints/" target="_blank">Instagram</a></li>
+        <li><a href="https://maps.app.goo.gl/Nv1toNk2z31agVrv8" target="_blank">Find Us</a></li>
+        <li><a href="#service-area">Mobile Service</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Prestige Auto Tints. All rights reserved. CT &amp; NY Licensed.</div>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/prestigeauto.tints/" target="_blank" class="social-link">Instagram</a>
+      <a href="https://maps.app.goo.gl/Nv1toNk2z31agVrv8" target="_blank" class="social-link">Google Maps</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.left = ringX + 'px';
+    cursorRing.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .service-panel, .masonry-item, .tech-tab, .filter-btn, .testimonial-dot, .slide-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expanded'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expanded'));
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Parallax hero
+  const heroVisual = document.querySelector('.hero-visual-inner');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    if (heroVisual) {
+      heroVisual.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+  });
+
+  // Featured slider
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.featured-slide');
+
+  function changeSlide(dir) {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + dir + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    // Update all count displays
+    document.querySelectorAll('[id^="slideCount"]').forEach(el => {
+      el.textContent = `0${currentSlide + 1} / 0${slides.length}`;
+    });
+    const main = document.getElementById('slideCount');
+    if(main) main.textContent = `0${currentSlide + 1} / 0${slides.length}`;
+  }
+
+  // Auto-advance slider
+  setInterval(() => changeSlide(1), 5000);
+
+  // Tech tabs
+  function openTab(tab, index) {
+    document.querySelectorAll('.tech-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    // Animate bars
+    setTimeout(() => {
+      tab.querySelectorAll('.tech-bar-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => bar.style.width = w, 50);
+      });
+    }, 100);
+  }
+
+  // Testimonials
+  let currentTestimonial = 0;
+  const testimonials = document.querySelectorAll('.testimonial-item');
+  const testimonialDots = document.querySelectorAll('.testimonial-dot');
+
+  function showTestimonial(index) {
+    testimonials[currentTestimonial].classList.remove('active');
+    testimonialDots[currentTestimonial].classList.remove('active');
+    currentTestimonial = index;
+    testimonials[currentTestimonial].classList.add('active');
+    testimonialDots[currentTestimonial].classList.add('active');
+  }
+
+  setInterval(() => {
+    showTestimonial((currentTestimonial + 1) % testimonials.length);
+  }, 6000);
+
+  // Portfolio filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Magnetic button effect for primary buttons
+  document.querySelectorAll('.btn-primary').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.15}px, ${y * 0.2}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  // Animate hero metrics on load
+  window.addEventListener('load', () => {
+    document.querySelector('.hero-content').style.opacity = '0';
+    document.querySelector('.hero-content').style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      document.querySelector('.hero-content').style.transition = 'opacity 1s ease, transform 1s ease';
+      document.querySelector('.hero-content').style.opacity = '1';
+      document.querySelector('.hero-content').style.transform = 'translateY(0)';
+    }, 300);
+  });
+
+  // Animate tech bars on section enter
+  const techSection = document.getElementById('technology');
+  const techObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      document.querySelectorAll('.tech-bar-fill').forEach(bar => {
+        const finalWidth = bar.style.width;
+        bar.style.width = '0';
+        setTimeout(() => {
+          bar.style.transition = 'width 1.2s ease';
+          bar.style.width = finalWidth;
+        }, 400);
+      });
+    }
+  }, { threshold: 0.3 });
+  if (techSection) techObserver.observe(techSection);
+</script>
+
+</body>
+</html>
