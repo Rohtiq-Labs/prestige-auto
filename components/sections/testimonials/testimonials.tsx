@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { SiteImage } from "@/components/ui/site-image";
@@ -37,15 +37,79 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+const SWIPE_THRESHOLD = 50;
+const AUTO_ADVANCE_MS = 6000;
+
 export const Testimonials = (): React.ReactNode => {
   const [current, setCurrent] = useState(0);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const resetAutoAdvance = useCallback((): void => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % testimonials.length);
+    }, AUTO_ADVANCE_MS);
+  }, []);
+
+  const goToTestimonial = useCallback(
+    (index: number): void => {
+      setCurrent(index);
+      resetAutoAdvance();
+    },
+    [resetAutoAdvance],
+  );
+
+  const goToNext = useCallback((): void => {
+    setCurrent((prev) => (prev + 1) % testimonials.length);
+    resetAutoAdvance();
+  }, [resetAutoAdvance]);
+
+  const goToPrev = useCallback((): void => {
+    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    resetAutoAdvance();
+  }, [resetAutoAdvance]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
+    resetAutoAdvance();
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [resetAutoAdvance]);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>): void => {
+    const touch = event.touches[0];
+    if (!touch) return;
+
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>): void => {
+    if (!touchStartRef.current) return;
+
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+
+    const deltaX = touch.clientX - touchStartRef.current.x;
+    const deltaY = touch.clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD || Math.abs(deltaX) < Math.abs(deltaY)) {
+      return;
+    }
+
+    if (deltaX < 0) {
+      goToNext();
+      return;
+    }
+
+    goToPrev();
+  };
 
   return (
     <section
@@ -76,7 +140,11 @@ export const Testimonials = (): React.ReactNode => {
           <SectionLabel>Client Testimonials</SectionLabel>
         </Reveal>
 
-        <div className="relative flex min-h-[300px] items-center">
+        <div
+          className="relative flex min-h-[300px] touch-pan-y items-center"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           {testimonials.map((item, index) => (
             <div
               key={item.id}
@@ -138,7 +206,7 @@ export const Testimonials = (): React.ReactNode => {
                   ? "w-12 bg-brand-silver"
                   : "w-6 bg-brand-border hover:bg-brand-red"
               }`}
-              onClick={() => setCurrent(index)}
+              onClick={() => goToTestimonial(index)}
               aria-label={`Show testimonial ${index + 1}`}
             />
           ))}

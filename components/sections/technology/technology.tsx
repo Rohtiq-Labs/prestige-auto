@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
-import { SiteImage } from "@/components/ui/site-image";
-import { FilmLayersGraphic } from "./film-layers-graphic";
 
 type TechTab = {
   id: string;
@@ -85,19 +83,8 @@ export const Technology = (): React.ReactNode => {
         </h2>
       </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 items-center gap-[60px] md:mt-20 md:grid-cols-2 md:gap-[120px]">
-        <div className="relative h-[280px] overflow-hidden md:h-[500px]">
-          <SiteImage
-            index={23}
-            alt="XPEL film technology applied to vehicle surface"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover object-center opacity-40"
-          />
-          <div className="absolute inset-0 bg-brand-bg-2/50" aria-hidden="true" />
-          <FilmLayersGraphic />
-        </div>
-
-        <div className="flex flex-col">
+      <div className="mt-10 w-full md:mt-20">
+        <div className="flex w-full flex-col">
           {techTabs.map((tab, index) => (
             <div
               key={tab.id}

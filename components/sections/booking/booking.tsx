@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/ui/reveal";
 import { PrimaryButton } from "@/components/ui/primary-button";
-import { SiteImage } from "@/components/ui/site-image";
+import { BOOKING_MAPS_URL, BookingMap } from "@/components/sections/booking/booking-map";
 
 const contactItems = [
   {
@@ -12,7 +12,7 @@ const contactItems = [
   {
     icon: "📍",
     label: "View on Google Maps",
-    href: "https://maps.app.goo.gl/Nv1toNk2z31agVrv8",
+    href: BOOKING_MAPS_URL,
     external: true,
   },
   { icon: "⏱", label: "Response within 24 hours" },
@@ -85,39 +85,26 @@ export const Booking = (): React.ReactNode => (
           )}
         </div>
 
-        <div className="relative mt-10 hidden h-56 overflow-hidden md:block">
-          <SiteImage
-            index={25}
-            alt="Recent Prestige Auto Tints installation"
-            sizes="400px"
-            className="object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent" aria-hidden="true" />
-        </div>
+        <BookingMap />
       </Reveal>
 
       <Reveal delay={2}>
         <form className="booking-form" aria-label="Consultation inquiry form">
-          <div className="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2">
-            <FormField label="First Name" id="firstName" placeholder="James" />
-            <FormField label="Last Name" id="lastName" placeholder="Thornton" />
-          </div>
-          <FormField
-            label="Email Address"
-            id="email"
-            type="email"
-            placeholder="james@example.com"
-          />
+          <FormField label="Name" id="name" placeholder="James Thornton" required />
           <FormField
             label="Phone Number"
             id="phone"
             type="tel"
             placeholder="+1 (203) 555-0100"
+            required
           />
-          <div className="mb-6 grid grid-cols-1 gap-5 md:grid-cols-2">
-            <FormField label="Vehicle Make" id="make" placeholder="Porsche" />
-            <FormField label="Vehicle Model" id="model" placeholder="911 GT3" />
-          </div>
+          <FormField
+            label="Email Address"
+            id="email"
+            type="email"
+            placeholder="james@example.com"
+            required
+          />
           <div className="relative mb-6">
             <label
               htmlFor="service"
@@ -128,6 +115,7 @@ export const Booking = (): React.ReactNode => (
             <select
               id="service"
               defaultValue=""
+              required
               className="w-full appearance-none border border-brand-border border-b-brand-silver/20 bg-brand-bg-2 px-[18px] py-3.5 font-sans text-[0.9rem] font-light text-brand-gray outline-none transition-colors duration-300 focus:border-brand-silver/25 focus:border-b-brand-red focus:bg-brand-bg-3"
             >
               <option value="" disabled>
@@ -139,20 +127,6 @@ export const Booking = (): React.ReactNode => (
                 </option>
               ))}
             </select>
-          </div>
-          <div className="relative mb-6">
-            <label
-              htmlFor="notes"
-              className="mb-2.5 block text-[0.6rem] uppercase tracking-[0.2em] text-brand-gray"
-            >
-              Additional Notes
-            </label>
-            <textarea
-              id="notes"
-              rows={5}
-              placeholder="Tell us about your vehicle, timeline, or any specific concerns..."
-              className="min-h-[120px] w-full resize-y border border-brand-border border-b-brand-silver/20 bg-brand-bg-2 px-[18px] py-3.5 font-sans text-[0.9rem] font-light text-brand-white outline-none placeholder:text-brand-gray/50 transition-colors duration-300 focus:border-brand-silver/25 focus:border-b-brand-red focus:bg-brand-bg-3"
-            />
           </div>
           <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <PrimaryButton type="submit">Send Inquiry →</PrimaryButton>
@@ -171,6 +145,7 @@ type FormFieldProps = {
   id: string;
   placeholder: string;
   type?: string;
+  required?: boolean;
 };
 
 const FormField = ({
@@ -178,8 +153,9 @@ const FormField = ({
   id,
   placeholder,
   type = "text",
+  required = false,
 }: FormFieldProps): React.ReactNode => (
-  <div className="relative mb-6 md:mb-0">
+  <div className="relative mb-6">
     <label
       htmlFor={id}
       className="mb-2.5 block text-[0.6rem] uppercase tracking-[0.2em] text-brand-gray"
@@ -190,6 +166,7 @@ const FormField = ({
       type={type}
       id={id}
       placeholder={placeholder}
+      required={required}
       className="w-full border border-brand-border border-b-brand-silver/20 bg-brand-bg-2 px-[18px] py-3.5 font-sans text-[0.9rem] font-light text-brand-white outline-none placeholder:text-brand-gray/50 transition-colors duration-300 focus:border-brand-silver/25 focus:border-b-brand-red focus:bg-brand-bg-3"
     />
   </div>

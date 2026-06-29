@@ -5,12 +5,6 @@ import { GhostButton } from "@/components/ui/ghost-button";
 import { PrimaryButton } from "@/components/ui/primary-button";
 import { SiteImage } from "@/components/ui/site-image";
 
-const metrics = [
-  { value: "500", suffix: "+", label: "Vehicles Protected" },
-  { value: "8", suffix: "yr", label: "XPEL Certified" },
-  { value: "2", suffix: "", label: "States Served" },
-];
-
 export const Hero = (): React.ReactNode => {
   const visualRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
@@ -35,7 +29,7 @@ export const Hero = (): React.ReactNode => {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[700px] h-screen items-end overflow-hidden"
+      className="relative grid h-screen min-h-[700px] grid-rows-[auto_1fr] overflow-hidden"
       aria-label="Hero"
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -62,53 +56,41 @@ export const Hero = (): React.ReactNode => {
         aria-hidden="true"
       />
 
-      <div
-        className={`relative z-[2] w-full max-w-[820px] px-6 pb-20 transition-all duration-1000 ease-out md:px-[60px] md:pb-[100px] ${
-          loaded ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
-        }`}
-      >
-        <div className="mb-8 flex items-center gap-4">
-          <span className="block h-px w-10 bg-brand-silver/50" aria-hidden="true" />
-          <span className="text-[0.65rem] font-normal uppercase tracking-[0.25em] text-brand-silver">
-            Certified XPEL Installer — CT & NY
-          </span>
-        </div>
+      <div className="relative z-[2] h-20 shrink-0 md:h-24" aria-hidden="true" />
 
-        <h1 className="mb-7 text-[clamp(3.5rem,8vw,9rem)] font-extralight leading-[0.95] tracking-[-0.03em] text-brand-white">
-          <span className="block">Where</span>
-          <span className="block">
-            Precision<em className="italic text-brand-silver"> Meets</em>
-          </span>
-          <span className="block">Protection.</span>
-        </h1>
-
-        <p className="mb-12 max-w-[420px] text-[0.85rem] leading-[1.8] tracking-[0.06em] text-brand-gray">
-          Paint protection film, ceramic coating, and premium window tint for
-          discerning owners who demand nothing less than perfection.
-        </p>
-
-        <div className="flex flex-wrap items-center gap-5">
-          <PrimaryButton href="#booking">Request a Quote</PrimaryButton>
-          <GhostButton href="#portfolio" icon="→">
-            View Our Work
-          </GhostButton>
-        </div>
-      </div>
-
-      <div className="absolute bottom-20 right-6 z-[3] hidden flex-col gap-8 text-right md:right-[60px] md:bottom-[100px] lg:flex">
-        {metrics.map((metric) => (
-          <div key={metric.label}>
-            <div className="text-[2.2rem] font-extralight leading-none tracking-[-0.02em] text-brand-white">
-              {metric.value}
-              {metric.suffix && (
-                <span className="text-brand-silver opacity-70">{metric.suffix}</span>
-              )}
-            </div>
-            <div className="mt-1 text-[0.6rem] uppercase tracking-[0.18em] text-brand-gray">
-              {metric.label}
-            </div>
+      <div className="relative z-[2] flex min-h-0 flex-col justify-end pb-20 md:pb-[100px]">
+        <div
+          className={`w-full max-w-[820px] px-6 transition-all duration-1000 ease-out md:px-[60px] ${
+            loaded ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
+          }`}
+        >
+          <div className="mb-8 flex items-center gap-4">
+            <span className="block h-px w-10 bg-brand-silver/50" aria-hidden="true" />
+            <span className="text-[0.65rem] font-normal uppercase tracking-[0.25em] text-brand-silver">
+              Certified XPEL Installer — CT & NY
+            </span>
           </div>
-        ))}
+
+          <h1 className="hero-title mb-7 max-w-[12ch] text-[clamp(2.5rem,5.5vw,6.5rem)] font-extralight leading-[0.98] tracking-[-0.03em] text-brand-white">
+            <span className="block">Where</span>
+            <span className="block">
+              Precision<em className="italic text-brand-silver"> Meets</em>
+            </span>
+            <span className="block">Protection.</span>
+          </h1>
+
+          <p className="mb-12 max-w-[420px] text-[0.85rem] leading-[1.8] tracking-[0.06em] text-brand-gray">
+            Paint protection film, ceramic coating, and premium window tint for
+            discerning owners who demand nothing less than perfection.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-5">
+            <PrimaryButton href="#booking">Request a Quote</PrimaryButton>
+            <GhostButton href="#portfolio" icon="→">
+              View Our Work
+            </GhostButton>
+          </div>
+        </div>
       </div>
 
       <div className="absolute bottom-10 left-1/2 z-[3] flex -translate-x-1/2 flex-col items-center gap-2">

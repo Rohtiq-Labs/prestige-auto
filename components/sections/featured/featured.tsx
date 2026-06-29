@@ -91,7 +91,7 @@ export const Featured = (): React.ReactNode => {
         </h2>
       </Reveal>
 
-      <div className="relative min-h-[500px] h-auto md:h-[70vh]">
+      <div className="relative min-h-[680px] md:h-[70vh] md:min-h-[500px]">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -99,7 +99,7 @@ export const Featured = (): React.ReactNode => {
               index === current ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
           >
-            <div className="relative flex flex-1 items-center justify-center overflow-hidden">
+            <div className="relative h-[280px] w-full shrink-0 overflow-hidden md:h-auto md:min-h-0 md:flex-1">
               <SiteImage
                 index={slide.imageIndex}
                 alt={`${slide.make} ${slide.model.replace("\n", " ")} featured installation`}

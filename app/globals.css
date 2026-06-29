@@ -86,6 +86,13 @@ body {
   animation: scroll-line 2s ease infinite;
 }
 
+@media (max-height: 820px) {
+  .hero-title {
+    font-size: clamp(2.25rem, 4.5vw, 4.75rem);
+    line-height: 1;
+  }
+}
+
 .masonry-item:nth-child(1) {
   grid-column: 1 / 6;
   grid-row: 1 / 7;
@@ -123,25 +130,71 @@ body {
   grid-row: 9 / 13;
 }
 
-.service-panel:hover {
+.service-panel.is-active,
+.service-panel:focus-visible {
+  outline: 1px solid rgba(194, 194, 194, 0.35);
+  outline-offset: -1px;
+}
+
+@media (hover: hover) {
+  .service-panel:hover {
+    flex: 3;
+  }
+
+  .service-panel:hover .service-panel-bg {
+    opacity: 1;
+  }
+
+  .service-panel:hover .service-panel-icon {
+    opacity: 0.5;
+  }
+
+  .service-panel:hover .service-panel-desc {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-panel:hover .service-panel-link {
+    opacity: 1;
+  }
+
+  .service-panel:hover .service-panel-hint {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.service-panel.is-active {
   flex: 3;
 }
 
-.service-panel:hover .service-panel-bg {
+.service-panel.is-active .service-panel-bg {
   opacity: 1;
 }
 
-.service-panel:hover .service-panel-icon {
+.service-panel.is-active .service-panel-icon {
   opacity: 0.5;
 }
 
-.service-panel:hover .service-panel-desc {
+.service-panel.is-active .service-panel-desc {
   opacity: 1;
   transform: translateY(0);
 }
 
-.service-panel:hover .service-panel-link {
+.service-panel.is-active .service-panel-link {
   opacity: 1;
+}
+
+.service-panel.is-active .service-panel-hint {
+  display: none;
+}
+
+.booking-map-layer iframe {
+  pointer-events: none;
+}
+
+.booking-map-layer {
+  filter: grayscale(100%) contrast(1.1) brightness(0.72);
 }
 
 @media (max-width: 900px) {
@@ -152,8 +205,9 @@ body {
     grid-row: unset !important;
   }
 
+  .service-panel.is-active,
   .service-panel:hover {
     flex: none;
-    height: 260px;
+    min-height: 280px;
   }
 }

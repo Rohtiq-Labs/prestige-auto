@@ -2,7 +2,6 @@ import { Navbar } from "@/components/sections/navbar/navbar";
 import { Hero } from "@/components/sections/hero/hero";
 import { Services } from "@/components/sections/services/services";
 import { Portfolio } from "@/components/sections/portfolio/portfolio";
-import { WhyUs } from "@/components/sections/why-us/why-us";
 import { Featured } from "@/components/sections/featured/featured";
 import { Technology } from "@/components/sections/technology/technology";
 import { Testimonials } from "@/components/sections/testimonials/testimonials";
@@ -18,7 +17,6 @@ export default function Home(): React.ReactNode {
         <Hero />
         <Services />
         <Portfolio />
-        <WhyUs />
         <Featured />
         <Technology />
         <Testimonials />

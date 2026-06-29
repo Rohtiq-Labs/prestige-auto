@@ -2,7 +2,6 @@ import { Reveal } from "@/components/ui/reveal";
 import { SectionLabel } from "@/components/ui/section-label";
 import { PrimaryButton } from "@/components/ui/primary-button";
 import { SiteImage } from "@/components/ui/site-image";
-import { ServiceAreaMap } from "./service-area-map";
 
 const states = [
   {
@@ -40,12 +39,8 @@ export const ServiceArea = (): React.ReactNode => (
           index={24}
           alt="Prestige Auto Tints service area in Connecticut and New York"
           sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover object-center opacity-30"
+          className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-brand-bg-2/40" aria-hidden="true" />
-        <div className="absolute inset-0">
-          <ServiceAreaMap />
-        </div>
       </div>
 
       <Reveal className="area-text">
